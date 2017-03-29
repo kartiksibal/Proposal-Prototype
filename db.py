@@ -84,16 +84,16 @@ class database:
 		pass
 
 		"""
+		##FIX ME: Ineffective Solution
+		
 		con = psycopg2.connect(database=db_name, user=user_name, password=user_password, host="127.0.0.1", port="5432")
 		cur = con.cursor()
-			count = 0
+		count = 0
 		
-		##Add: Update selected entries, instead of the whole DB.
 		for entries in cve_id:
-			cur.execute ("UPDATE vuln_data SET (cve_id, pkg_name, status) WHERE (%s, %s, %s)", (cve_id [count],
-													  pkg_name [count],
-					                                                             vuln_status [count+1]))
+			cur.execute ("UPDATE vuln_data SET (cve_id, pkg_name, status) WHERE (%s, %s, %s)", (cve_id [count], pkg_name [count], vuln_status [count+1]))
 			count += 1
+		
 		con.commit()
 		con.close()
 		"""
