@@ -74,6 +74,7 @@ class database:
 
 	def update(self):
 		"""Scraper scrapes new data, updates the whole darn table (temporary solution)"""
+		"""
 		con = psycopg2.connect(database=db_name, user=user_name, password=user_password, host="127.0.0.1", port="5432")
 		cur = con.cursor()
 		count = 0
@@ -85,6 +86,7 @@ class database:
 			count += 1
 		con.commit()
 		con.close()
+		"""
 """
 print "Welcome To the world of CVE: \n"
 print "We use PostgreSql as our DB, we are expecting it to be up and running in your system\n"
