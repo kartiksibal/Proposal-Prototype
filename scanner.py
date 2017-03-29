@@ -1,4 +1,3 @@
-"""Sorted Alphabetically :p"""
 import bs4 as bs 
 import re
 import urllib
@@ -12,13 +11,11 @@ vuln_status = []
 
 """Scrapes vulnerability status"""
 for tag in soup.find_all('tr'):
-
 	##FIX ME: Presently, Appends a list to a list
 	vuln_status.append(tag.get('class'))
 	
 """Scrapes package name and CVE ID"""
 for tag in soup.find_all('a'):
-
 	href = tag.get ('href', None)
 
 	"""Fix ME: Extract from tag attributes, to accomodate for future website changes, 
