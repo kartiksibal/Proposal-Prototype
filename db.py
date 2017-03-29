@@ -61,8 +61,8 @@ class database:
 		"""
 		for entries in cve_id:
 			cur.execute("INSERT into vuln_data(cve_id, pkg_name, status) VALUES (%s, %s, %s)", (cve_id[count], 
-																								pkg_name[count], 
-																								vuln_status[count+1]))
+													  pkg_name[count], 
+												       vuln_status[count+1]))
 			count += 1
 		"""
 		Also, will it be better to add the commit statement, inside the for loop? 
@@ -80,8 +80,8 @@ class database:
 		##Add: Update selected entries, instead of the whole DB.
 		for entries in cve_id:
 			cur.execute ("UPDATE vuln_data SET (cve_id, pkg_name, status) WHERE (%s, %s, %s)", (cve_id [count],
-																							pkg_name [count],
-																							vuln_status [count+1]))
+													  pkg_name [count],
+					                                                             vuln_status [count+1]))
 			count += 1
 		con.commit()
 		con.close()
