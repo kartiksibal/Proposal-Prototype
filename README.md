@@ -14,4 +14,4 @@ Additional Features:
 2. It can create a table and dump the data, in an already present DB.
 3. As and when more data sources are added, the user will be given an option to decide the datasets that they require.
 
-You can run it, simply by changing your directory and entering `python db.py`
+You can run it, simply by changing your directory and entering `python main.py`
