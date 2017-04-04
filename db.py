@@ -13,7 +13,6 @@ class Database:
 		"""Tries to establish connection to the DB"""
 		try:
 			conn = psycopg2.connect(database=self.db_name, user=self.user_name, password=self.user_password, host="127.0.0.1", port="5432")
-			print "Connection Successfull"
 		except psycopg2.DatabaseError as error: print error
 
 	def new_db(self):
@@ -25,7 +24,7 @@ class Database:
 			con = psycopg2.connect(database="postgres", user=self.user_name, password=self.user_password, host="127.0.0.1", port="5432")
 			con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 			cur = con.cursor()
-			cur.execute("CREATE DATABASE " + db_name)	
+			cur.execute("CREATE DATABASE " + self.db_name)	
 			cur.close()
 			con.close()
 		

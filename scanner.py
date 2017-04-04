@@ -9,7 +9,6 @@ cve_id = []
 pkg_name = []
 vuln_status = []
 
-'''
 def ubuntu_data():
 
 	"""Scrapes vulnerability status"""
@@ -26,7 +25,9 @@ def ubuntu_data():
 		if re.findall ('\pkg+.*', href):
 			pkg = re.findall ('pkg/(.+)\.html', href)
 			pkg_name.append(pkg)
-'''
 
 def debian_data():
+	pass
+
+ubuntu_data()
 
