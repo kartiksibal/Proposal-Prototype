@@ -76,7 +76,7 @@ def debian_data():
 			
 			if "medium**" in tag or "medium" in tag or "low" in tag or "low**" in tag or "not yet assigned" in tag:
 				vuln_status.append (tag.text)
-			
+			#BUG: Scrapes invalid data on 'testing' data
 			elif soup.find_all("span", {"class":"red"}):
 				vuln_status.append (tag.text)	
 
