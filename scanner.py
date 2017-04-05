@@ -36,7 +36,7 @@ def ubuntu_data():
 def debian_data():
 	"""Scrapes vulnerability data from Debian's dataset"""
 	link = 2 
-	parent_url = urllib.urlopen("https://security-tracker.debian.org/tracker/status/release/testing").read()
+	parent_url = urllib.urlopen("https://security-tracker.debian.org/tracker/").read()
 	soup = bs.BeautifulSoup (parent_url, "lxml")
 
 	"""Extracts links of child datasets"""
