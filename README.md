@@ -15,3 +15,13 @@ Additional Features:
 3. As and when more data sources are added, the user will be given an option to decide the datasets that they require.
 
 You can run it, simply by changing your directory and entering `python main.py`
+
+Datasets:
+
+1. Debian
+2. Ubuntu
+
+To DO:
+1. Add test cases
+2. Format code
+3. Fix bugs
