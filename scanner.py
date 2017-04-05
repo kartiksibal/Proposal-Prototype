@@ -78,9 +78,7 @@ def debian_data():
 				vuln_status.append (tag.text)
 			#BUG: Scrapes invalid data on 'testing' data
 			elif soup.find_all("span", {"class":"red"}):
-				vuln_status.append (tag.text)	
-
-	# print len(cve_id), len (pkg_name), len (vuln_status)
+				vuln_status.append (tag.text)
 	
 	'''	
 		"""Un-comment to view scraped data"""
@@ -88,10 +86,10 @@ def debian_data():
 		count = 0
 		for i in cve_id:
 			print "\nCVE ID:{}\
-				   \nPackage Name:{}\
-				   \nStatus:{}".format(cve_id[count][0], 
-				   					 pkg_name[count][0],
-				   					 vuln_status[count])
+			       \nPackage Name:{}\
+			       \nStatus:{}".format(cve_id[count][0], 
+				   		 pkg_name[count][0],
+				                 vuln_status[count])
 			count += 1
 	'''
 debian_data()
