@@ -24,4 +24,5 @@ __Datasets:__
 
 __To DO__:
 1. Add test cases
-
+2. Connect debian's dataset with the DB
+3. Update script
