@@ -8,8 +8,8 @@ vuln_status = []
 links = []
 
 def ubuntu_data():
+	
 	"""Scrapes data from Ubuntu's 'Main' dataset"""
-
 	url = urllib.urlopen ("https://people.canonical.com/~ubuntu-security/cve/main.html").read()
 	soup = bs.BeautifulSoup (url, "lxml")
 
@@ -34,6 +34,7 @@ def ubuntu_data():
 			pkg_name.append(pkg)
 
 def debian_data():
+	
 	"""Scrapes vulnerability data from Debian's dataset"""
 	link = 2 
 	parent_url = urllib.urlopen("https://security-tracker.debian.org/tracker/").read()
@@ -48,6 +49,7 @@ def debian_data():
 			links.append (href)
 
 	for child_links in range (6):
+		
 		"""Extracts package info from all the child datasets"""
 		child_url = urllib.urlopen("https://security-tracker.debian.org" + links [link]).read()
 		link += 1		
@@ -69,6 +71,7 @@ def debian_data():
 				pkg = re.findall ('(?<=/tracker/source-package/).*', href)
 				pkg_name.append (pkg)
 			
+			"""if package name is empty, add the previous package name"""
 			if href == "/tracker/source-package/":
 				pkg_name.append (pkg)
 		
@@ -76,11 +79,11 @@ def debian_data():
 			
 			if "medium**" in tag or "medium" in tag or "low" in tag or "low**" in tag or "not yet assigned" in tag:
 				vuln_status.append (tag.text)
-			#BUG: Scrapes invalid data on 'testing' data
-			elif soup.find_all("span", {"class":"red"}):
+
+			elif tag.find_all("span", {"class":"red"}) and tag.text == "high**" or tag.text == "high":
 				vuln_status.append (tag.text)
-	
-	'''	
+
+		'''
 		"""Un-comment to view scraped data"""
 
 		count = 0
@@ -88,8 +91,9 @@ def debian_data():
 			print "\nCVE ID:{}\
 			       \nPackage Name:{}\
 			       \nStatus:{}".format(cve_id[count][0], 
-				   		 pkg_name[count][0],
-				                 vuln_status[count])
+				   		 			pkg_name[count][0],
+				                 	vuln_status[count])
 			count += 1
-	'''
+		'''
+
 debian_data()
