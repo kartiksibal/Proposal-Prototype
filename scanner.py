@@ -33,6 +33,17 @@ def ubuntu_data():
 			pkg = re.findall ('pkg/(.+)\.html', href)
 			pkg_name.append(pkg)
 
+	'''
+	""" Uncomment to print scraped data"""
+	count = 0
+	for i in cve_id:
+		print "\nCVE ID:{}\
+			   \nPackage Name:{}\
+			   \nStatus:{}".format(cve_id[count], 
+				   		 		  pkg_name[count][0],
+				                  vuln_status[count][count + 1])
+		count += 1
+	'''
 def debian_data():
 	
 	"""Scrapes vulnerability data from Debian's dataset"""
@@ -82,10 +93,9 @@ def debian_data():
 
 			elif tag.find_all("span", {"class":"red"}) and tag.text == "high**" or tag.text == "high":
 				vuln_status.append (tag.text)
-
+		
 		'''
 		"""Un-comment to view scraped data"""
-
 		count = 0
 		for i in cve_id:
 			print "\nCVE ID:{}\
@@ -95,5 +105,8 @@ def debian_data():
 				                 	vuln_status[count])
 			count += 1
 		'''
+		
+if __name__ == '__main__':
 
-debian_data()
+	ubuntu_data()
+	debian_data()
