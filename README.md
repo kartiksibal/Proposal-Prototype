@@ -10,7 +10,7 @@ __It scrapes the following data:__
 
 __Additional Features:__
 
-1. Interactive applcation  
+1. Interactive applciation  
 2. It can create a DB for you and then dump the data.
 3. It can create a table and dump the data, in an already present DB.
 4. As and when more data sources are added, the user will be given an option to decide the datasets that they require.
