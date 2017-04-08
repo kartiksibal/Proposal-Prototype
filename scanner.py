@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 """
 This script scrapes package vulnerability info. from 
 different datasets. It scrapes, CVE ID, Vulnerabiltiy 
@@ -6,7 +7,6 @@ Status & package name from different datasets and creates
 three list 'cve_id', 'pkg_name' & 'vuln_status', with all 
 the scraped information
 """
-
 import bs4 as bs 
 import re
 import sys
@@ -36,7 +36,7 @@ def ubuntu_data():
 
 	for tag in soup.find_all('tr'):
 		
-		if re.findall('<\w+\s\w+="(\w+)">', str(tag)):
+		if re.match('<\w+\s\w+="(\w+)">', str(tag)):
 			status = re.findall('<\w+\s\w+="(\w+)">', str(tag))
 			vuln_status.append(status[0])
 
@@ -48,19 +48,19 @@ def ubuntu_data():
 		if re.findall ('^CVE.+', href): 
 			cve_id.append(href)
 		
-		if re.findall ('\pkg+.*', href):
+		if re.match('\pkg+.*', href):
 			pkg = re.findall ('pkg/(.+)\.html', href)
-			pkg_name.append(pkg)
+			pkg_name.append(pkg[0])
 	'''
 	""" Uncomment to print scraped data"""
 	for id in range(len(cve_id)):
 		print ("\nCVE ID:{}\
 			   \nPackage Name:{}\
 			   \nStatus:{}".format(cve_id[id], 
-				   		 		  pkg_name[id][0],
-				                  vuln_status[id][0]))
+				   		 		  pkg_name[id],
+				                  vuln_status[id]))
 	'''
-	
+
 def debian_data():
 	
 	"""Scrapes vulnerability data from Debian's dataset"""
@@ -83,23 +83,23 @@ def debian_data():
 
 		for tag in soup.find_all ('a'):
 			
-			href = tag.get ('href')
+			href = tag.get('href')
 			
-			if re.match('/tracker/CVE-(.+)', href):
+			if re.search('/tracker/CVE-(.+)', href):
 				id = re.findall ('(?<=/tracker/).*', href)
-				cve_id.append (id)
+				cve_id.append(id[0])
 			
-			if re.match('^/tracker/TEMP-+.*', href):
+			if re.search('^/tracker/TEMP-+.*', href):
 				id = re.findall ('(?<=/tracker/).*', href)
-				cve_id.append(id)
+				cve_id.append(id[0])
 			
-			if re.match('/tracker/source-package/(.+)', href):
+			if re.search('/tracker/source-package/(.+)', href):
 				pkg = re.findall ('(?<=/tracker/source-package/).*', href)
-				pkg_name.append (pkg)
+				pkg_name.append(pkg[0])
 			
 			"""if package name is empty, use the previous package name"""
 			if href == "/tracker/source-package/":
-				pkg_name.append (pkg)
+				pkg_name.append(pkg)
 		
 		for tag in soup.find_all('td'):
 			
@@ -108,16 +108,17 @@ def debian_data():
 
 			elif tag.find_all("span", {"class":"red"}) and tag.text == "high**" or tag.text == "high":
 				vuln_status.append (tag.text)
-		
+		'''
 		"""Uncomment to view scraped data"""
 		for id in range(len(cve_id)):
 			print ("\nCVE ID:{}\
 			       \nPackage Name:{}\
-			       \nStatus:{}".format(cve_id[id][0], 
-				   		 			pkg_name[id][0],
+			       \nStatus:{}".format(cve_id[id], 
+				   		 			pkg_name[id],
 				                 	vuln_status[id]))
+		'''
 
 if __name__ == '__main__':
 
 	ubuntu_data()
-	#debian_data()
+	debian_data()
