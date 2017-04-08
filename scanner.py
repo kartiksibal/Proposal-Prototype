@@ -19,7 +19,10 @@ def ubuntu_data():
 	status of a package across all it's releases. 
 	"""
 	for tag in soup.find_all('tr'):
-		vuln_status.append (tag.get ('class'))
+		
+		if re.findall('<\w+\s\w+="(\w+)">', str(tag)):
+			status = re.findall('<\w+\s\w+="(\w+)">', str(tag))
+			vuln_status.append(status[0])
 
 	"""Scrapes package name and CVE ID"""
 	for tag in soup.find_all('a'):
@@ -33,7 +36,6 @@ def ubuntu_data():
 			pkg = re.findall ('pkg/(.+)\.html', href)
 			pkg_name.append(pkg)
 
-	'''
 	""" Uncomment to print scraped data"""
 	count = 0
 	for i in cve_id:
@@ -44,6 +46,7 @@ def ubuntu_data():
 				                  vuln_status[count][count + 1])
 		count += 1
 	'''
+	
 def debian_data():
 	
 	"""Scrapes vulnerability data from Debian's dataset"""
@@ -109,4 +112,4 @@ def debian_data():
 if __name__ == '__main__':
 
 	ubuntu_data()
-	debian_data()
+	#debian_data()
