@@ -1,6 +1,21 @@
+#!/usr/bin/env python
+"""
+This script scrapes package vulnerability info. from 
+different datasets. It scrapes, CVE ID, Vulnerabiltiy 
+Status & package name from different datasets and creates 
+three list 'cve_id', 'pkg_name' & 'vuln_status', with all 
+the scraped information
+"""
+
 import bs4 as bs 
 import re
-import urllib
+import sys
+
+"""Py version check"""
+if sys.version_info[0] == 3:
+    from urllib.request import urlopen as ur
+else:
+    from urllib import urlopen as ur
 
 cve_id = []
 pkg_name = []
@@ -10,7 +25,7 @@ links = []
 def ubuntu_data():
 	
 	"""Scrapes data from Ubuntu's 'Main' dataset"""
-	url = urllib.urlopen ("https://people.canonical.com/~ubuntu-security/cve/main.html").read()
+	url = ur("https://people.canonical.com/~ubuntu-security/cve/main.html").read()
 	soup = bs.BeautifulSoup (url, "lxml")
 
 	"""
@@ -18,8 +33,10 @@ def ubuntu_data():
 	Ubuntu provides a general vulnerability 
 	status of a package across all it's releases. 
 	"""
+
 	for tag in soup.find_all('tr'):
-		vuln_status.append (tag.get ('class'))
+
+		
 
 	"""Scrapes package name and CVE ID"""
 	for tag in soup.find_all('a'):
@@ -32,23 +49,20 @@ def ubuntu_data():
 		if re.findall ('\pkg+.*', href):
 			pkg = re.findall ('pkg/(.+)\.html', href)
 			pkg_name.append(pkg)
-
+	
 	'''
 	""" Uncomment to print scraped data"""
-	count = 0
-	for i in cve_id:
-		print "\nCVE ID:{}\
+	for id in range(len(cve_id)):
+		print ("\nCVE ID:{}\
 			   \nPackage Name:{}\
-			   \nStatus:{}".format(cve_id[count], 
-				   		 		  pkg_name[count][0],
-				                  vuln_status[count][count + 1])
-		count += 1
+			   \nStatus:{}".format(cve_id[id], 
+				   		 		  pkg_name[id][0],
+				                  vuln_status[id][0]))
 	'''
 def debian_data():
 	
 	"""Scrapes vulnerability data from Debian's dataset"""
-	link = 2 
-	parent_url = urllib.urlopen("https://security-tracker.debian.org/tracker/").read()
+	parent_url = ur ("https://security-tracker.debian.org/tracker/").read()
 	soup = bs.BeautifulSoup (parent_url, "lxml")
 
 	"""Extracts links of child datasets"""
@@ -62,27 +76,26 @@ def debian_data():
 	for child_links in range (6):
 		
 		"""Extracts package info from all the child datasets"""
-		child_url = urllib.urlopen("https://security-tracker.debian.org" + links [link]).read()
-		link += 1		
+		child_url = ur ("https://security-tracker.debian.org" + links [child_links + 2]).read()
 		soup = bs.BeautifulSoup (child_url, "lxml")
 
 		for tag in soup.find_all ('a'):
 			
 			href = tag.get ('href')
 			
-			if re.findall('/tracker/CVE-(.+)', href):
+			if re.match('/tracker/CVE-(.+)', href):
 				id = re.findall ('(?<=/tracker/).*', href)
 				cve_id.append (id)
 			
-			if re.findall ('^/tracker/TEMP-+.*', href):
+			if re.match('^/tracker/TEMP-+.*', href):
 				id = re.findall ('(?<=/tracker/).*', href)
 				cve_id.append(id)
 			
-			if re.findall ('/tracker/source-package/(.+)', href):
+			if re.match('/tracker/source-package/(.+)', href):
 				pkg = re.findall ('(?<=/tracker/source-package/).*', href)
 				pkg_name.append (pkg)
 			
-			"""if package name is empty, add the previous package name"""
+			"""if package name is empty, use the previous package name"""
 			if href == "/tracker/source-package/":
 				pkg_name.append (pkg)
 		
@@ -94,19 +107,15 @@ def debian_data():
 			elif tag.find_all("span", {"class":"red"}) and tag.text == "high**" or tag.text == "high":
 				vuln_status.append (tag.text)
 		
-		'''
-		"""Un-comment to view scraped data"""
-		count = 0
-		for i in cve_id:
-			print "\nCVE ID:{}\
+		"""Uncomment to view scraped data"""
+		for id in range(len(cve_id)):
+			print ("\nCVE ID:{}\
 			       \nPackage Name:{}\
-			       \nStatus:{}".format(cve_id[count][0], 
-				   		 			pkg_name[count][0],
-				                 	vuln_status[count])
-			count += 1
-		'''
-		
+			       \nStatus:{}".format(cve_id[id][0], 
+				   		 			pkg_name[id][0],
+				                 	vuln_status[id]))
+
 if __name__ == '__main__':
 
 	ubuntu_data()
-	debian_data()
+	#debian_data()
