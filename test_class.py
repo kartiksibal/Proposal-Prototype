@@ -44,9 +44,7 @@ def test_ubuntu_data():
 	"""	
 	sc.urlopen = Mock()
 	sc.urlopen.return_value = ubuntu_fake_data
-
 	sc.ubuntu_data()
-	
 	assert sc.vuln_status[0] == "High" and sc.cve_id[0] == "CVE-2002-2439" and sc.pkg_name[0] == "gcc-4.4"
 
 '''
