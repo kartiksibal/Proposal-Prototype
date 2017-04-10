@@ -18,7 +18,7 @@ class Database:
 														   port="5432")
 
 		except psycopg2.DatabaseError as error: 
-								print error
+								print (error)
 
 	def new_db(self):
 		"""Creates a new DB to add the table in"""
@@ -38,11 +38,11 @@ class Database:
 			con.close()
 		
 		except psycopg2.DatabaseError as error: 
-						print error
+						print (error)
 
 	def create_table(self):
 		"""Initialises a new table"""
-		conn = None
+		con = None
 
 		try:
 			con = psycopg2.connect(database=self.db_name, user=self.user_name, 
@@ -55,7 +55,7 @@ class Database:
 			con.close()
 		
 		except psycopg2.DatabaseError as error: 
-							print error
+							print (error)
 
 	def first_insert(self):
 		"""Scrapes data, adds to the table"""
@@ -67,26 +67,21 @@ class Database:
 														   host="127.0.0.1", 
 														   port="5432")
 			cur = conn.cursor()
-
-			print "Scraping Data!"
-
-			from scanner import cve_id, pkg_name, vuln_status
-
-			for entries in len(cve_id):
-				cur.execute("INSERT into vuln_data(cve_id, pkg_name, status) VALUES (%s, %s, %s)",(cve_id[entries], 
-																									pkg_name[entries], 
-																									vuln_status[entries+1]))
+			print ("Scraping Data!")
 			
-			"""
-			Also, will it be better to add the commit statement, inside the for loop? 
-			Add Autocommit, instead? Is it wise to do it? 
-			What will a better approach?
-			"""
+			import scanner as sc
+			sc.ubuntu_data()
+			sc.debian_data() 
+			
+			for entries in range(len(sc.cve_id)):
+				cur.execute("INSERT into vuln_data(cve_id, pkg_name, status) VALUES (%s, %s, %s)",(sc.cve_id[entries], 
+																									sc.pkg_name[entries], 
+																									sc.vuln_status[entries]))
 			conn.commit()
 			conn.close()
 		
 		except psycopg2.DatabaseError as error: 
-					print error
+					print (error)
 	
 	def update(self):
 		"""Scraper scrapes new data, updates the whole darn table (temporary solution)"""
