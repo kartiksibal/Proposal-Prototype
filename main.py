@@ -15,20 +15,21 @@ print ("Let's establish a connnection to your DB! Shall we? \n")
 sleep
 clear       
 
-user_name = raw_input ("Please enter your PostgreSql Username: ")
-##Add: Store the password inside .pgpass file
+user_name = input ("Please enter your PostgreSql Username: ")
+##FIX ME: Store the password inside .pgpass file
 user_password = getpass.getpass ("\nPlease enter your PostgreSql Password: (We'll keep it secret!!) ")
 
-dec = raw_input("\n\nWould you like to add the data in a new DB or an existing DB? (N for new E for existing): ")
+dec = input("\n\nWould you like to add the data in a new DB or an existing DB? (N for new E for existing): ")
 
 if dec == 'e' or dec == 'E':
-	clear       
-	db_name = raw_input ("\nPlease enter your EXISTING DB's name!: ")
+	os.system('clear')
+	db_name = input ("\nPlease enter your EXISTING DB's name!: ")
+	##Add a check to see if the DB is valid.
 	db = Database (user_name, user_password, db_name)
 
 elif dec == 'N' or dec == 'n':
-	clear       
-	db_name = raw_input ("\nPlease enter a name for your NEW DB: ")
+	os.system('clear')
+	db_name = input ("\nPlease enter a name for your NEW DB: ")
 	db = Database (user_name, user_password, db_name)
 	db.new_db()
 
@@ -36,9 +37,9 @@ sleep
 clear       
 
 db.conn_establish()
-print "Database Connection Succesfull!"
-sleep
-clear       
+print ("Database Connection Succesfull!")
+time.sleep(2)
+os.system('clear')
 
 print ("Let's create a new table to store our data in!")
 db.create_table()
