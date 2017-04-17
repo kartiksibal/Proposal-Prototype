@@ -1,6 +1,6 @@
 # Proposal-Prototype
 
-Scraper scrapes data from bug trackers. Stores the scraped data into a PostgreSql database using Psycopg2 as ORM and can update the data whenever the user request. 
+Scraper scrapes data from bug trackers. Stores the scraped data into a PostgreSql database using Psycopg2 and can update the data whenever the user request. 
 
 __It scrapes the following data:__
 
