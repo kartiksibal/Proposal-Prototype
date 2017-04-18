@@ -97,6 +97,6 @@ class Database:
 		for entries in len(cve_id):
 			cur.execute ("UPDATE vuln_data SET (cve_id, pkg_name, status) WHERE (%s, %s, %s)", (cve_id [entries], pkg_name [entries], vuln_status [entries+1]))
 		
-		con.commit()
+		 con.commit()
 		con.close()
 		"""
